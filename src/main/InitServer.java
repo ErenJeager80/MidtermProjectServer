@@ -25,7 +25,7 @@ public class InitServer extends Task<Long> {
             try {
 
                 Socket s=ss.accept();
-                System.out.println("---"+(int)(i+1) +" player requested---");
+                System.out.println("---"+ (i+1) +" player requested---");
                 Thread thread = new Thread(new InitialResponse(s));
                 thread.start();
             } catch (IOException e) {
@@ -42,7 +42,7 @@ public class InitServer extends Task<Long> {
         out.flush();
     }
     public static void sendObject(Socket s, Object  data) throws IOException, InterruptedException {
-        TimeUnit.MILLISECONDS.sleep(20);
+        TimeUnit.MILLISECONDS.sleep(10);
         ObjectOutputStream out=new ObjectOutputStream(s.getOutputStream());
         out.writeObject(data);
     }

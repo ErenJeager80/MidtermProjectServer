@@ -8,7 +8,7 @@ import static main.Config.TILE_SIZE;
 
 public class Element extends StackPane implements Serializable {
     protected int x, y;
-    public int value;
+    public int value,id=-1;
     public String color;
 
     public int getValue() {

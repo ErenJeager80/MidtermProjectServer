@@ -16,11 +16,16 @@ import static main.Config.*;
 public class Piece extends Element {
     Ellipse ellipse;
 
-    public Piece(int x, int y) {
+    public Piece(int x, int y,int id) {
         super(x, y, ElementType.PIECE);
-
+        super.id=id;
 
         Ellipse bg = new Ellipse(TILE_SIZE * 0.3125, TILE_SIZE * 0.26);
+
+        Label l = new Label(String.valueOf(id+1));
+        l.setTranslateX(TILE_SIZE/4-3);
+        l.setTranslateY(TILE_SIZE/4);
+
         bg.setFill(Color.BLACK);
 
         bg.setStroke(Color.BLACK);
@@ -39,7 +44,7 @@ public class Piece extends Element {
         ellipse.setTranslateX((TILE_SIZE - TILE_SIZE * 0.3125 * 2) / 2);
         ellipse.setTranslateY((TILE_SIZE - TILE_SIZE * 0.26 * 2) / 2);
 
-        getChildren().addAll(bg, ellipse);
+        getChildren().addAll(bg, ellipse,l);
 
         setOnDragDetected(e -> {
             Dragboard db = startDragAndDrop(TransferMode.ANY);

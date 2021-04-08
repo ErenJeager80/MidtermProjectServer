@@ -20,7 +20,7 @@ public class InitialResponse implements Runnable{
     @Override
     public void run() {
         try {
-            DataInputStream in = new DataInputStream(new BufferedInputStream(client.getInputStream()));
+            DataInputStream in = new DataInputStream(client.getInputStream());
             WHILE:
             while(true) {
                 String data =in.readUTF();
@@ -32,6 +32,7 @@ public class InitialResponse implements Runnable{
                     case "size" -> InitServer.send(client, String.valueOf(SERVER_SIZE));
                     case "hello!" ->{
                         players[JOINED_PLAYERS] = new Player(client);
+                        players[JOINED_PLAYERS].id=JOINED_PLAYERS;
                         Thread t =new Thread(new Response(players[JOINED_PLAYERS]));
                         t.start();
                         JOINED_PLAYERS++;

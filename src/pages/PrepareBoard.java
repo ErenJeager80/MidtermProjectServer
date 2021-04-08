@@ -45,7 +45,7 @@ public class PrepareBoard {
         mainGrid.getChildren().add(boardPane);
 
         root.getChildren().addAll(mainGrid);
-
+        int pieceCount = 0;
         for (int y = 0; y < HEIGHT; y++) {
             for (int x = 0; x < WIDTH; x++) {
                 Tile tile = new Tile((x + y) % 2 == 0, x, y);
@@ -60,15 +60,15 @@ public class PrepareBoard {
                 walls[x][y] = wall;
 
                 Piece piece = null;
-                if (y == 0 && x<SERVER_SIZE) {
-                    piece = new Piece( x, y);
-                }
+                if (y == 0 && x < SERVER_SIZE)
+                    piece = new Piece(x, y, pieceCount++);
+
 
                 if (piece != null) {
                     tile.setElement(piece);
                     elementGroup.getChildren().add(piece);
                 }
-                elementGroup.getChildren().addAll(wall,star,slow);
+                elementGroup.getChildren().addAll(wall, star, slow);
                 tileGroup.getChildren().add(tile);
             }
         }
@@ -76,20 +76,22 @@ public class PrepareBoard {
     }
 
     public static class SimpleBoard implements Serializable {
-        public ElementType[][] elemets=new ElementType[WIDTH][HEIGHT];
-        public String[][] pieceColor=new String[WIDTH][HEIGHT];
-        public int[][] values=new int[WIDTH][HEIGHT];
-        public SimpleBoard(){
+        public ElementType[][] elements = new ElementType[WIDTH][HEIGHT];
+        public String[][] pieceColor = new String[WIDTH][HEIGHT];
+        public int[][] values = new int[WIDTH][HEIGHT];
+        public int[][] id = new int[WIDTH][HEIGHT];
+
+        public SimpleBoard() {
 
             for (int y = 0; y < HEIGHT; y++) {
                 for (int x = 0; x < WIDTH; x++) {
-                    if(PrepareBoard.board[x][y].hasElement()) {
-                        elemets[x][y] = PrepareBoard.board[x][y].getElement().getType();
+                    if (PrepareBoard.board[x][y].hasElement()) {
+                        elements[x][y] = PrepareBoard.board[x][y].getElement().getType();
                         pieceColor[x][y] = PrepareBoard.board[x][y].getElement().color;
                         values[x][y] = PrepareBoard.board[x][y].getElement().value;
-                    }
-                    else
-                        elemets[x][y]=null;
+                        id[x][y] = PrepareBoard.board[x][y].getElement().id;
+                    } else
+                        elements[x][y] = null;
                 }
             }
         }

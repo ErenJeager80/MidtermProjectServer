@@ -5,6 +5,7 @@ import java.net.Socket;
 public class Player {
     public Socket socket;
     private String name;
+    public int id;
 
     public boolean isConnected(){
         return socket.isConnected();
