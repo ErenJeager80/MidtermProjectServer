@@ -11,6 +11,8 @@ import javafx.util.Pair;
 
 
 import static main.Config.*;
+import static main.Globals.IS_GAME_STARTED;
+import static main.Globals.IS_SERVER_STARTED;
 
 
 public class Piece extends Element {
@@ -47,11 +49,13 @@ public class Piece extends Element {
         getChildren().addAll(bg, ellipse,l);
 
         setOnDragDetected(e -> {
-            Dragboard db = startDragAndDrop(TransferMode.ANY);
-            ClipboardContent cb = new ClipboardContent();
-            cb.putString(this.x + "|" + this.y);
-            db.setContent(cb);
-            e.consume();
+            if(!IS_SERVER_STARTED) {
+                Dragboard db = startDragAndDrop(TransferMode.ANY);
+                ClipboardContent cb = new ClipboardContent();
+                cb.putString(this.x + "|" + this.y);
+                db.setContent(cb);
+                e.consume();
+            }
         });
         ColorPicker cp = new ColorPicker(Color.valueOf(color));
         Dialog<Pair<String, String>> dialog = new Dialog<>();

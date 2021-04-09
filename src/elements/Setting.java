@@ -11,12 +11,14 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import main.InitServer;
+import main.WaitForPlayers;
 import pages.PrepareBoard;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import static main.Config.*;
+import static main.Globals.*;
 
 public class Setting extends GridPane {
     public Setting() {
@@ -37,22 +39,34 @@ public class Setting extends GridPane {
         setConstraints(submit, 1, 0);
         getChildren().add(submit);
 
-        submit.setOnMouseClicked(e -> {
-
-            InitServer myServer = new InitServer();
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.getDialogPane().lookupButton(ButtonType.OK).setVisible(false);
-            ExecutorService executorService = Executors.newFixedThreadPool(1);
-            executorService.execute(myServer);
-            myServer.setOnRunning(__->alert.show());
-            myServer.setOnSucceeded(__->alert.close());
-
-            ((Node) (e.getSource())).getScene().getWindow().hide();
-        });
         //Defining the Clear button
         Button clear = new Button("Reset");
         setConstraints(clear, 1, 1);
         getChildren().add(clear);
+
+        LOG.setPrefSize(100,HEIGHT*TILE_SIZE-80);
+
+        setConstraints(LOG, 0, 2);
+        getChildren().add(LOG);
+
+
+        submit.setOnMouseClicked(e -> {
+            if(!IS_SERVER_STARTED) {
+                IS_SERVER_STARTED=true;
+                InitServer myServer = new InitServer();
+                WaitForPlayers wfp = new WaitForPlayers();
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.getDialogPane().lookupButton(ButtonType.OK).setVisible(false);
+                ExecutorService executorService = Executors.newFixedThreadPool(2);
+                executorService.execute(myServer);
+                executorService.execute(wfp);
+                Loading l = new Loading(LoadingType.LOAD, "Wait for players");
+                wfp.setOnRunning(__ -> l.show());
+                wfp.setOnSucceeded(__ -> l.close());
+                submit.setDisable(true);
+                clear.setDisable(true);
+            }
+        });
 
         clear.setOnMouseClicked(e -> {
             PrepareBoard pb = new PrepareBoard();

@@ -1,15 +1,15 @@
 package main;
 
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Player {
     public Socket socket;
-    private String name;
     public int id;
+    public int score;
+    public List<Integer> limits=new ArrayList<Integer>();
 
-    public boolean isConnected(){
-        return socket.isConnected();
-    }
     public Player(Socket socket){
         this.socket=socket;
     }
