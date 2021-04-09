@@ -65,7 +65,10 @@ public class Piece extends Element {
         dialog.getDialogPane().getButtonTypes().addAll(loginButtonType);
         dialog.getDialogPane().lookupButton(loginButtonType).setVisible(false);
         dialog.getDialogPane().setContent(cp);
-        setOnContextMenuRequested(e->dialog.show());
+        setOnContextMenuRequested(e->{
+            if(!IS_SERVER_STARTED)
+            dialog.show();
+        });
         cp.setOnAction(__->{
             setColor(cp.getValue());
             dialog.hide();

@@ -8,7 +8,6 @@ import static main.Config.*;
 import static main.Globals.*;
 
 public class InitialResponse implements Runnable{
-    public static Player[] players=new Player[SERVER_SIZE];
     Socket client;
 
     public InitialResponse(Socket s) throws IOException, InterruptedException {

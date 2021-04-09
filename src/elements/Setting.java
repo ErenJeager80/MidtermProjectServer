@@ -79,6 +79,7 @@ public class Setting extends GridPane {
         });
         fcp.setOnAction(e -> {
             Color c = fcp.getValue();
+            FIRST_COLOR=c.toString();
             for (int y = 0; y < HEIGHT; y++) {
                 for (int x = 0; x < WIDTH; x++) {
                     if ((x + y) % 2 == 0)
@@ -88,6 +89,7 @@ public class Setting extends GridPane {
         });
         scp.setOnAction(e -> {
             Color c = scp.getValue();
+            SECOND_COLOR=c.toString();
             for (int y = 0; y < HEIGHT; y++) {
                 for (int x = 0; x < WIDTH; x++) {
                     if ((x + y) % 2 == 1)

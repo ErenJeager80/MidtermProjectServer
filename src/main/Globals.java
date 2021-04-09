@@ -2,6 +2,8 @@ package main;
 
 import elements.Log;
 
+import static main.Config.SERVER_SIZE;
+
 public class Globals {
     public static boolean IS_SERVER_STARTED=false;
 
@@ -11,5 +13,5 @@ public class Globals {
 
     public static Log LOG=new Log();
 
-
+    public static Player[] players=new Player[SERVER_SIZE];
 }

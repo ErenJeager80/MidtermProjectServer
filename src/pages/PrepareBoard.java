@@ -8,6 +8,7 @@ import javafx.scene.layout.Pane;
 import java.io.Serializable;
 
 import static main.Config.*;
+import static main.Globals.players;
 
 public class PrepareBoard {
 
@@ -60,8 +61,11 @@ public class PrepareBoard {
                 walls[x][y] = wall;
 
                 Piece piece = null;
-                if (y == 0 && x < SERVER_SIZE)
-                    piece = new Piece(x, y, pieceCount++);
+                if (y == 0 && x < SERVER_SIZE) {
+                    piece = new Piece(x, y, pieceCount);
+                    players[pieceCount].setPiece(piece);
+                    pieceCount++;
+                }
 
 
                 if (piece != null) {
