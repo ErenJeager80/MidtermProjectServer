@@ -1,13 +1,11 @@
 package main;
 
-import pages.PrepareBoard;
-
-import java.io.BufferedInputStream;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.net.Socket;
 
 import static main.Config.*;
+import static main.Globals.*;
 
 public class InitialResponse implements Runnable{
     public static Player[] players=new Player[SERVER_SIZE];
@@ -16,6 +14,7 @@ public class InitialResponse implements Runnable{
     public InitialResponse(Socket s) throws IOException, InterruptedException {
         client=s;
         InitServer.send(client,"hello!");
+
     }
     @Override
     public void run() {
@@ -33,6 +32,7 @@ public class InitialResponse implements Runnable{
                     case "hello!" ->{
                         players[JOINED_PLAYERS] = new Player(client);
                         players[JOINED_PLAYERS].id=JOINED_PLAYERS;
+                        LOG.setText("Player "+ JOINED_PLAYERS +" joined to server");
                         Thread t =new Thread(new Response(players[JOINED_PLAYERS]));
                         t.start();
                         JOINED_PLAYERS++;

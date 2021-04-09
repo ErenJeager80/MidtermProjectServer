@@ -12,12 +12,9 @@ public class Config {
 
     public static String SERVER_NAME="test";
     public static String SERVER_PASSWORD="";
-    public static int SERVER_PORT=3333;
+    public static int SERVER_PORT=50;
     public static int JOINED_PLAYERS=0;
 
     public static int SERVER_SIZE=2;
-
-    public static int TURN=0;
-    public static String LAST_MOVE="";
 
 }

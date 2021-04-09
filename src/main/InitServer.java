@@ -8,6 +8,7 @@ import java.net.Socket;
 import java.util.concurrent.TimeUnit;
 
 import static main.Config.*;
+import static main.Globals.LOG;
 
 public class InitServer extends Task<Long> {
     private ServerSocket ss;
@@ -16,16 +17,15 @@ public class InitServer extends Task<Long> {
     protected Long call() throws Exception {
 
         try {
-            ss= new ServerSocket(70);
+            ss= new ServerSocket(SERVER_PORT);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println("---Waiting for players---");
+        LOG.add("---Waiting for players---");
         for(int i=0;JOINED_PLAYERS<SERVER_SIZE;i++){
             try {
-
                 Socket s=ss.accept();
-                System.out.println("---"+ (i+1) +" player requested---");
+                LOG.add("---"+ (i+1) +" player requested---");
                 Thread thread = new Thread(new InitialResponse(s));
                 thread.start();
             } catch (IOException e) {
@@ -36,19 +36,18 @@ public class InitServer extends Task<Long> {
     }
 
     public static void send(Socket s, String data) throws IOException, InterruptedException {
-        TimeUnit.MILLISECONDS.sleep(5);
         DataOutputStream out = new DataOutputStream(s.getOutputStream());
         out.writeUTF(data);
         out.flush();
     }
     public static void sendObject(Socket s, Object  data) throws IOException, InterruptedException {
-        TimeUnit.MILLISECONDS.sleep(10);
         ObjectOutputStream out=new ObjectOutputStream(s.getOutputStream());
         out.writeObject(data);
+        out.flush();
     }
 
     public static String receive(Socket s) throws IOException {
-        DataInputStream in = new DataInputStream(new BufferedInputStream(s.getInputStream()));
+        DataInputStream in = new DataInputStream(s.getInputStream());
         return in.readUTF();
     }
 }

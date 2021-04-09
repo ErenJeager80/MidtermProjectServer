@@ -6,7 +6,6 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 
@@ -21,13 +20,13 @@ public class InitServer extends GridPane {
         setHgap(5);
 
 
-        TextField serverName = new TextField("test");
+        TextField serverName = new TextField(SERVER_NAME);
         serverName.setPromptText("Server name");
         setConstraints(serverName, 0, 0);
         getChildren().add(serverName);
 
-        TextField serverPort = new TextField("3333");
-        serverPort.setPromptText("Server name");
+        TextField serverPort = new TextField(String.valueOf(SERVER_PORT));
+        serverPort.setPromptText("Server port");
         setConstraints(serverPort, 0, 1);
         getChildren().add(serverPort);
 
@@ -36,7 +35,7 @@ public class InitServer extends GridPane {
         setConstraints(serverPass, 0, 2);
         getChildren().add(serverPass);
 
-        TextField playerNum = new TextField("5");
+        TextField playerNum = new TextField(String.valueOf(SERVER_SIZE));
         playerNum.setPromptText("Player Number");
         setConstraints(playerNum, 0, 3);
         getChildren().add(playerNum);
