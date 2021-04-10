@@ -59,8 +59,8 @@ public class Response implements Runnable{
                         if(WINNER==null)
                         InitServer.send(client, "-1");
                         else {
-                            GAME_IS_ENDED =true;
                             InitServer.send(client, String.valueOf(WINNER.id));
+                          //  GAME_IS_ENDED =true;
                         }
                     }
 
