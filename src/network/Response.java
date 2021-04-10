@@ -1,11 +1,12 @@
-package main;
+package network;
 
 import javafx.application.Platform;
+import main.Move;
+import main.Player;
 import pages.PrepareBoard;
 
 import java.io.*;
 import java.net.Socket;
-import java.util.concurrent.TimeUnit;
 
 import static main.Config.*;
 import static main.Globals.*;

@@ -1,11 +1,10 @@
-package main;
+package network;
 
 import javafx.concurrent.Task;
 
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.concurrent.TimeUnit;
 
 import static main.Config.*;
 import static main.Globals.LOG;

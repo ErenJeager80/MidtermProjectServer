@@ -10,8 +10,8 @@ import javafx.scene.control.ColorPicker;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import main.InitServer;
-import main.WaitForPlayers;
+import network.InitServer;
+import network.WaitForPlayers;
 import pages.PrepareBoard;
 
 import java.util.concurrent.ExecutorService;

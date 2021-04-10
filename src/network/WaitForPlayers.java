@@ -1,4 +1,4 @@
-package main;
+package network;
 
 import javafx.concurrent.Task;
 
@@ -10,10 +10,8 @@ import static main.Config.*;
 public class WaitForPlayers extends Task<Long> {
     @Override
     protected Long call() throws Exception {
-        while (true){
+        while (JOINED_PLAYERS!=SERVER_SIZE){
             TimeUnit.MILLISECONDS.sleep(100);
-            if(JOINED_PLAYERS==SERVER_SIZE)
-                break;
         }
         return null;
     }

@@ -1,5 +1,6 @@
-package main;
+package network;
 
+import main.Player;
 import pages.PrepareBoard;
 
 import java.io.DataInputStream;

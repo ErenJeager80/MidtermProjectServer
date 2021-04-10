@@ -1,6 +1,7 @@
 package elements;
 
 
+import javafx.application.Platform;
 import javafx.scene.control.TextArea;
 
 public class Log extends TextArea {
@@ -9,6 +10,6 @@ public class Log extends TextArea {
 
     }
     public void add(String s){
-        appendText(s+"\n");
+        Platform.runLater(()->appendText(s+"\n"));
     }
 }

@@ -10,7 +10,7 @@ import java.util.List;
 public class Player {
     public Socket socket;
     public int id;
-    Element piece;
+    public Element piece;
     public int score;
     public List<Integer> limits=new ArrayList<Integer>();
 
