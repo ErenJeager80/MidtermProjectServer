@@ -1,5 +1,7 @@
 package main;
 
+import pages.PrepareBoard;
+
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.net.Socket;
@@ -29,10 +31,15 @@ public class InitialResponse implements Runnable{
                     case "player" -> InitServer.send(client, String.valueOf(JOINED_PLAYERS));
                     case "size" -> InitServer.send(client, String.valueOf(SERVER_SIZE));
                     case "hello!" ->{
-                        players[JOINED_PLAYERS] = new Player(client);
-                        players[JOINED_PLAYERS].id=JOINED_PLAYERS;
+                        players.add((JOINED_PLAYERS),new Player(client));
+                        players.get(JOINED_PLAYERS).id=JOINED_PLAYERS;
+                        for(var t: PrepareBoard.board)
+                            for(var tile :t)
+                                if(tile.hasElement() && tile.getElement().id==JOINED_PLAYERS)
+                                    players.get(JOINED_PLAYERS).setPiece(tile.getElement());
+
                         LOG.setText("Player "+ JOINED_PLAYERS +" joined to server");
-                        Thread t =new Thread(new Response(players[JOINED_PLAYERS]));
+                        Thread t =new Thread(new Response(players.get(JOINED_PLAYERS)));
                         t.start();
                         JOINED_PLAYERS++;
                         break WHILE;

@@ -2,8 +2,8 @@ package main;
 
 public class Config {
     public static int TILE_SIZE = 50;
-    public static int WIDTH = 7;
-    public static int HEIGHT = 7;
+    public static int WIDTH = 10;
+    public static int HEIGHT = 10;
 
     public static String FIRST_COLOR = "#ba68c8";
     public static String SECOND_COLOR = "#ce93d8";

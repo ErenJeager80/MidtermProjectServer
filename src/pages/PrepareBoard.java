@@ -61,11 +61,8 @@ public class PrepareBoard {
                 walls[x][y] = wall;
 
                 Piece piece = null;
-                if (y == 0 && x < SERVER_SIZE) {
-                    piece = new Piece(x, y, pieceCount);
-                    players[pieceCount].setPiece(piece);
-                    pieceCount++;
-                }
+                if (y == 0 && x < SERVER_SIZE)
+                    piece = new Piece(x, y, pieceCount++);
 
 
                 if (piece != null) {

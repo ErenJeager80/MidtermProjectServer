@@ -4,9 +4,6 @@ import elements.ElementType;
 import elements.Tile;
 import pages.PrepareBoard;
 
-import java.util.Arrays;
-import java.util.Comparator;
-
 import static main.Config.SERVER_SIZE;
 import static main.Globals.*;
 
@@ -16,18 +13,18 @@ public class Move {
             for (int i = x1, j = y1; (!(x2 > x1 || y2 > y1) || (i <= x2 && j <= y2)) && (!(x2 < x1 || y2 < y1) || i >= x2 && j >= y2); i += Integer.signum(x2 - x1), j += Integer.signum(y2 - y1)) {
                 if (board[i][j].hasElement() && board[i][j].getElement().isVisible()) {
                     if (board[i][j].getElement().getType() == ElementType.STAR ) {
-                        players[board[x1][y1].getElement().id].score++;
+                        players.get(board[x1][y1].getElement().id).score++;
                         board[i][j].getElement().setVisible(false);
                     }
                     if (board[i][j].getElement().getType() == ElementType.SLOW) {
-                        players[(board[x1][y1].getElement().id+1)%SERVER_SIZE].limits.add(board[i][j].getElement().value);
+                        players.get((board[x1][y1].getElement().id+1)%SERVER_SIZE).limits.add(board[i][j].getElement().value);
                         board[i][j].getElement().setVisible(false);
                     }
                 }
             }
-            if(IS_GAME_STARTED){
+            if(IS_GAME_STARTED)
                 checkWin();
-            }
+
             board[x1][y1].getElement().move(x2, y2);
             board[x2][y2].setElement(board[x1][y1].getElement());
             board[x1][y1].setElement(null);
@@ -41,10 +38,14 @@ public class Move {
                 if(tile.hasElement() && tile.getElement().getType() == ElementType.STAR &&tile.getElement().isVisible())
                     count++;
         if(count==0){
-            Arrays.sort(players, Comparator.comparingInt(p -> p.score));
+            int score=-1;
             for(var p : players)
-                if(p.score==players[0].score)
-                LOG.add("Player "+ (p.id+1) +" won!!!"+" Score:"+p.score);
+                if(p.score>score){
+                    score=p.score;
+                    WINNER=p;
+                }
+            LOG.add("Player "+ (WINNER.id+1) +" won!!!"+" Score:"+WINNER.score);
+
         }
 
     }

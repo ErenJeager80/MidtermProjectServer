@@ -1,5 +1,6 @@
 package main;
 
+import elements.Element;
 import elements.Piece;
 
 import java.net.Socket;
@@ -9,11 +10,11 @@ import java.util.List;
 public class Player {
     public Socket socket;
     public int id;
-    Piece piece;
+    Element piece;
     public int score;
     public List<Integer> limits=new ArrayList<Integer>();
 
-    public void setPiece(Piece piece) {
+    public void setPiece(Element piece) {
         this.piece = piece;
     }
 
@@ -21,4 +22,5 @@ public class Player {
         this.socket=socket;
 
     }
+
 }

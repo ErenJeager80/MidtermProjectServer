@@ -5,6 +5,7 @@ import pages.PrepareBoard;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.concurrent.TimeUnit;
 
 import static main.Config.*;
 import static main.Globals.*;
@@ -22,9 +23,14 @@ public class Response implements Runnable{
     public void run() {
         try {
             DataInputStream in = new DataInputStream(client.getInputStream());
-            while(true) {
+            while(!GAME_IS_ENDED) {
                 String data =in.readUTF();
-
+                if(data.contains("l:")){
+                    int player = Integer.parseInt(data.substring(data.indexOf(":")+1));
+                    var x=String.valueOf(players.get(player).piece.getX());
+                    var y=String.valueOf(players.get(player).piece.getY());
+                    InitServer.send(client,x+"|"+y);
+                }
                 if(data.indexOf('-')!=-1) {
                     LAST_MOVE = data;
                     Platform.runLater(() -> {
@@ -49,6 +55,15 @@ public class Response implements Runnable{
                     case "lastMove"->  InitServer.send(client, LAST_MOVE);
                     case "fc"->  InitServer.send(client, FIRST_COLOR);
                     case "sc"->  InitServer.send(client, SECOND_COLOR);
+                    case "end?"->  {
+                        if(WINNER==null)
+                        InitServer.send(client, "-1");
+                        else {
+                            GAME_IS_ENDED =true;
+                            InitServer.send(client, String.valueOf(WINNER.id));
+                        }
+                    }
+
                     case "height"-> InitServer.send(client,String.valueOf( HEIGHT));
                     case "limit"->{
                         if(player.limits.size()>0) {
@@ -69,7 +84,11 @@ public class Response implements Runnable{
         } catch (IOException | InterruptedException e) {
             LOG.add("Player "+ id+":"+e.getMessage());
         }
-
+        try {
+            client.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }
