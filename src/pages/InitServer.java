@@ -1,6 +1,7 @@
 package pages;
 
 
+import elements.Error;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -18,7 +19,6 @@ public class InitServer extends GridPane {
         setPadding(new Insets(10, 10, 10, 10));
         setVgap(5);
         setHgap(5);
-
 
         TextField serverName = new TextField(SERVER_NAME);
         serverName.setPromptText("Server name");
@@ -43,6 +43,26 @@ public class InitServer extends GridPane {
         Button submit = new Button("Submit");
         setConstraints(submit, 1, 0);
         getChildren().add(submit);
+        playerNum.textProperty().addListener(e->{
+                try {
+                     Integer.parseInt(playerNum.getText());
+                    submit.setDisable(false);
+                    playerNum.setStyle("-fx-text-inner-color: black;");
+                }catch(Exception ex){
+                    playerNum.setStyle("-fx-text-inner-color: red;");
+                    submit.setDisable(true);
+                }
+        });
+        serverPort.textProperty().addListener(e->{
+            try {
+                Integer.parseInt(serverPort.getText());
+                submit.setDisable(false);
+                serverPort.setStyle("-fx-text-inner-color: black;");
+            }catch(Exception ex){
+                serverPort.setStyle("-fx-text-inner-color: red;");
+                submit.setDisable(true);
+            }
+        });
 
         submit.setOnMouseClicked(e -> {
             SERVER_NAME=serverName.getText();

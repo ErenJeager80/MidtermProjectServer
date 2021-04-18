@@ -5,7 +5,6 @@ import elements.Log;
 import java.util.ArrayList;
 import java.util.List;
 
-import static main.Config.SERVER_SIZE;
 
 public class Globals {
     public static boolean IS_SERVER_STARTED=false;

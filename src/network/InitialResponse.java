@@ -1,42 +1,41 @@
 package network;
 
+import elements.ElementType;
+import elements.Piece;
 import main.Player;
 import pages.PrepareBoard;
 
-import java.io.DataInputStream;
 import java.io.IOException;
 import java.net.Socket;
 
 import static main.Config.*;
 import static main.Globals.*;
+import static network.Network.*;
 
 public class InitialResponse implements Runnable{
-    Socket client;
+    private final Socket client;
 
     public InitialResponse(Socket s) throws IOException, InterruptedException {
         client=s;
-        InitServer.send(client,"hello!");
-
+        send(client,"hello!");
     }
     @Override
     public void run() {
         try {
-            DataInputStream in = new DataInputStream(client.getInputStream());
             WHILE:
             while(true) {
-                String data =in.readUTF();
+                String data =receive(client);
                 System.out.println(data);
                 switch (data) {
-                    case "name" -> InitServer.send(client, SERVER_NAME);
-                    case "password" -> InitServer.send(client, SERVER_PASSWORD);
-                    case "player" -> InitServer.send(client, String.valueOf(JOINED_PLAYERS));
-                    case "size" -> InitServer.send(client, String.valueOf(SERVER_SIZE));
+                    case "name" -> send(client, SERVER_NAME);
+                    case "password" -> send(client, SERVER_PASSWORD);
+                    case "player" -> send(client, String.valueOf(JOINED_PLAYERS));
+                    case "size" -> send(client, String.valueOf(SERVER_SIZE));
                     case "hello!" ->{
-                        players.add((JOINED_PLAYERS),new Player(client));
-                        players.get(JOINED_PLAYERS).id=JOINED_PLAYERS;
-                        for(var t: PrepareBoard.board)
+                        players.add((JOINED_PLAYERS),new Player(client,JOINED_PLAYERS));
+                        for(var t: PrepareBoard.getBoard())
                             for(var tile :t)
-                                if(tile.hasElement() && tile.getElement().id==JOINED_PLAYERS)
+                                if(tile.getElement() instanceof Piece &&((Piece)tile.getElement()).getPieceId() ==JOINED_PLAYERS)
                                     players.get(JOINED_PLAYERS).setPiece(tile.getElement());
 
                         LOG.setText("Player "+ JOINED_PLAYERS +" joined to server");

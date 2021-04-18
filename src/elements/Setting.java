@@ -3,9 +3,7 @@ package elements;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
@@ -53,14 +51,15 @@ public class Setting extends GridPane {
         submit.setOnMouseClicked(e -> {
             if(!IS_SERVER_STARTED) {
                 IS_SERVER_STARTED=true;
+
                 InitServer myServer = new InitServer();
                 WaitForPlayers wfp = new WaitForPlayers();
-                Alert alert = new Alert(Alert.AlertType.WARNING);
-                alert.getDialogPane().lookupButton(ButtonType.OK).setVisible(false);
+
                 ExecutorService executorService = Executors.newFixedThreadPool(2);
                 executorService.execute(myServer);
                 executorService.execute(wfp);
                 Loading l = new Loading(LoadingType.LOAD, "Wait for players");
+
                 wfp.setOnRunning(__ -> l.show());
                 wfp.setOnSucceeded(__ -> l.close());
                 submit.setDisable(true);
@@ -78,12 +77,13 @@ public class Setting extends GridPane {
             ((Node) (e.getSource())).getScene().getWindow().hide();
         });
         fcp.setOnAction(e -> {
+
             Color c = fcp.getValue();
             FIRST_COLOR=c.toString();
             for (int y = 0; y < HEIGHT; y++) {
                 for (int x = 0; x < WIDTH; x++) {
                     if ((x + y) % 2 == 0)
-                        PrepareBoard.board[x][y].setFill(c);
+                        PrepareBoard.getBoard()[x][y].setFill(c);
                 }
             }
         });
@@ -93,7 +93,7 @@ public class Setting extends GridPane {
             for (int y = 0; y < HEIGHT; y++) {
                 for (int x = 0; x < WIDTH; x++) {
                     if ((x + y) % 2 == 1)
-                        PrepareBoard.board[x][y].setFill(c);
+                        PrepareBoard.getBoard()[x][y].setFill(c);
                 }
             }
         });

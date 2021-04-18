@@ -11,12 +11,14 @@ import javafx.stage.StageStyle;
 public class Loading extends Alert {
     public Loading(LoadingType type, String header) {
         super(AlertType.WARNING);
+
         Rectangle r = new Rectangle();
         Image map = new Image(type==LoadingType.SEARCH?"elements/assets/search.gif":"elements/assets/load.gif");
         r.setWidth(300);
         r.setHeight(300/map.getWidth()*map.getHeight());
         ImagePattern pattern = new ImagePattern(map);
         r.setFill(pattern);
+
         initStyle(StageStyle.UNDECORATED);
         setHeaderText(header);
         initModality(Modality.NONE);

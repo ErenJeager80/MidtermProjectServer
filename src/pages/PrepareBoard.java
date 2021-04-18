@@ -8,24 +8,43 @@ import javafx.scene.layout.Pane;
 import java.io.Serializable;
 
 import static main.Config.*;
-import static main.Globals.players;
 
 public class PrepareBoard {
 
-    public static Tile[][] board;
-    public static Star[][] stars;
-    public static Slow[][] slows;
-    public static Wall[][] walls;
+    private static Tile[][] board;
+    private static Star[][] stars;
+    private static Slow[][] slows;
+    private static Wall[][] walls;
     private final Group tileGroup = new Group();
     private final Group elementGroup = new Group();
 
 
     public PrepareBoard() {
-        board = new Tile[WIDTH][HEIGHT];
-        stars = new Star[WIDTH][HEIGHT];
-        slows = new Slow[WIDTH][HEIGHT];
-        walls = new Wall[WIDTH][HEIGHT];
+        board=new Tile[WIDTH][HEIGHT];
+        stars=new Star[WIDTH][HEIGHT];
+        slows=new Slow[WIDTH][HEIGHT];
+        walls=new Wall[WIDTH][HEIGHT];
     }
+
+    public static Tile[][] getBoard() {
+        return board;
+    }
+
+
+    public static Star[][] getStars() {
+        return stars;
+    }
+
+
+    public static Slow[][] getSlows() {
+        return slows;
+    }
+
+
+    public static Wall[][] getWalls() {
+        return walls;
+    }
+
 
     public Pane build() {
         Pane root = new Pane();
@@ -50,15 +69,15 @@ public class PrepareBoard {
         for (int y = 0; y < HEIGHT; y++) {
             for (int x = 0; x < WIDTH; x++) {
                 Tile tile = new Tile((x + y) % 2 == 0, x, y);
-                board[x][y] = tile;
+                getBoard()[x][y] = tile;
 
                 Wall wall = new Wall(x, y);
                 Slow slow = new Slow(x, y);
                 Star star = new Star(x, y);
 
-                stars[x][y] = star;
-                slows[x][y] = slow;
-                walls[x][y] = wall;
+                getStars()[x][y] = star;
+                getSlows()[x][y] = slow;
+                getWalls()[x][y] = wall;
 
                 Piece piece = null;
                 if (y == 0 && x < SERVER_SIZE)
@@ -77,24 +96,54 @@ public class PrepareBoard {
     }
 
     public static class SimpleBoard implements Serializable {
-        public ElementType[][] elements = new ElementType[WIDTH][HEIGHT];
-        public String[][] pieceColor = new String[WIDTH][HEIGHT];
-        public int[][] values = new int[WIDTH][HEIGHT];
-        public int[][] id = new int[WIDTH][HEIGHT];
-
+        private final ElementType[][] elements = new ElementType[WIDTH][HEIGHT];
+        private final String[][] pieceColor = new String[WIDTH][HEIGHT];
+        private final int[][] values = new int[WIDTH][HEIGHT];
+        private final int[][] id = new int[WIDTH][HEIGHT];
+        static ElementType getType(Element e){
+            if(e instanceof Slow)
+                return ElementType.SLOW;
+            if(e instanceof Piece)
+                return ElementType.PIECE;
+            if(e instanceof Wall)
+                return ElementType.WALL;
+            if(e instanceof Star)
+                return ElementType.STAR;
+           return null;
+        }
         public SimpleBoard() {
 
             for (int y = 0; y < HEIGHT; y++) {
                 for (int x = 0; x < WIDTH; x++) {
-                    if (PrepareBoard.board[x][y].hasElement()) {
-                        elements[x][y] = PrepareBoard.board[x][y].getElement().getType();
-                        pieceColor[x][y] = PrepareBoard.board[x][y].getElement().color;
-                        values[x][y] = PrepareBoard.board[x][y].getElement().value;
-                        id[x][y] = PrepareBoard.board[x][y].getElement().id;
+                    if (board[x][y].hasElement()) {
+                        elements[x][y] =getType(getBoard()[x][y].getElement());
+                        if(board[x][y].getElement() instanceof Piece)
+                        pieceColor[x][y] = ((Piece)getBoard()[x][y].getElement()).getColor();
+                        if(board[x][y].getElement() instanceof Slow)
+                        values[x][y] = ((Slow)getBoard()[x][y].getElement()).getValue();
+                        if(board[x][y].getElement() instanceof Piece)
+                        getId()[x][y] = ((Piece)getBoard()[x][y].getElement()).getPieceId();
+
                     } else
                         elements[x][y] = null;
                 }
             }
+        }
+
+        public ElementType[][] getElements() {
+            return elements;
+        }
+
+        public String[][] getPieceColor() {
+            return pieceColor;
+        }
+
+        public int[][] getValues() {
+            return values;
+        }
+
+        public int[][] getId() {
+            return id;
         }
     }
 }

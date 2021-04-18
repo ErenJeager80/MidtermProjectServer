@@ -9,16 +9,10 @@ import static main.Config.TILE_SIZE;
 
 public class Slow extends Element {
 
-    public void setValue(int value) {
-        super.value = value;
-    }
-
-    public int getValue() {
-        return value;
-    }
+    private  int value;
 
     public Slow(int x, int y) {
-        super(x, y, ElementType.SLOW);
+        super(x, y);
 
         Rectangle slow = new Rectangle(0, 0, TILE_SIZE, TILE_SIZE);
 
@@ -30,5 +24,10 @@ public class Slow extends Element {
 
         getChildren().addAll(slow);
     }
-
+    public void setValue(int value) {
+        this.value=value;
+    }
+    public int getValue() {
+        return value;
+    }
 }

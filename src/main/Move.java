@@ -1,7 +1,6 @@
 package main;
 
-import elements.ElementType;
-import elements.Tile;
+import elements.*;
 import pages.PrepareBoard;
 
 import static main.Config.SERVER_SIZE;
@@ -9,15 +8,15 @@ import static main.Globals.*;
 
 public class Move {
     public static void set(Tile[][] board, int x1, int y1, int x2, int y2) {
-        if(board[x1][y1].hasElement() && board[x1][y1].getElement().getType()== ElementType.PIECE) {
+        if(board[x1][y1].hasElement() && board[x1][y1].getElement() instanceof Piece) {
             for (int i = x1, j = y1; (!(x2 > x1 || y2 > y1) || (i <= x2 && j <= y2)) && (!(x2 < x1 || y2 < y1) || i >= x2 && j >= y2); i += Integer.signum(x2 - x1), j += Integer.signum(y2 - y1)) {
                 if (board[i][j].hasElement() && board[i][j].getElement().isVisible()) {
-                    if (board[i][j].getElement().getType() == ElementType.STAR ) {
-                        players.get(board[x1][y1].getElement().id).score++;
+                    if (board[i][j].getElement() instanceof Star) {
+                        players.get(((Piece)board[x1][y1].getElement()).getPieceId()).setScore(players.get(((Piece)board[x1][y1].getElement()).getPieceId()).getScore() + 1);
                         board[i][j].getElement().setVisible(false);
                     }
-                    if (board[i][j].getElement().getType() == ElementType.SLOW) {
-                        players.get((board[x1][y1].getElement().id+1)%SERVER_SIZE).limits.add(board[i][j].getElement().value);
+                    if (board[i][j].getElement() instanceof Slow) {
+                        players.get((((Piece)board[x1][y1].getElement()).getPieceId() + 1) % SERVER_SIZE).getLimits().add(((Slow)board[i][j].getElement()).getValue());
                         board[i][j].getElement().setVisible(false);
                     }
                 }
@@ -33,18 +32,18 @@ public class Move {
 
     private static void checkWin() {
         int count = 0;
-        for(var t: PrepareBoard.board)
+        for(var t: PrepareBoard.getBoard())
             for(var tile :t)
-                if(tile.hasElement() && tile.getElement().getType() == ElementType.STAR &&tile.getElement().isVisible())
+                if(tile.hasElement() && tile.getElement() instanceof Star &&tile.getElement().isVisible())
                     count++;
         if(count==0){
             int score=-1;
             for(var p : players)
-                if(p.score>score){
-                    score=p.score;
+                if(p.getScore() >score){
+                    score= p.getScore();
                     WINNER=p;
                 }
-            LOG.add("Player "+ (WINNER.id+1) +" won!!!"+" Score:"+WINNER.score);
+            LOG.add("Player "+ (WINNER.getId() +1) +" won!!!"+" Score:"+ WINNER.getScore());
 
         }
 

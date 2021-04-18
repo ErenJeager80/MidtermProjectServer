@@ -11,16 +11,27 @@ import javafx.util.Pair;
 
 
 import static main.Config.*;
-import static main.Globals.IS_GAME_STARTED;
 import static main.Globals.IS_SERVER_STARTED;
 
 
 public class Piece extends Element {
     Ellipse ellipse;
 
+    public int getPieceId() {
+        return id;
+    }
+
+    private final int id;
+
+    public String getColor() {
+        return color;
+    }
+
+    private String color;
+
     public Piece(int x, int y,int id) {
-        super(x, y, ElementType.PIECE);
-        super.id=id;
+        super(x, y);
+        this.id=id;
 
         Ellipse bg = new Ellipse(TILE_SIZE * 0.3125, TILE_SIZE * 0.26);
 
@@ -76,7 +87,7 @@ public class Piece extends Element {
     }
 
     public void setColor(Color color) {
-        this.color = color.toString();
+        this.color=color.toString();
         ellipse.setFill(color);
     }
 }
