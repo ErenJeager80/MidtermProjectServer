@@ -40,8 +40,19 @@ public class InitServer extends GridPane {
         setConstraints(playerNum, 0, 3);
         getChildren().add(playerNum);
 
+        TextField width = new TextField(String.valueOf(WIDTH));
+        width.setPromptText("Player Number");
+        setConstraints(width, 0, 4);
+        getChildren().add(width);
+
+        TextField height = new TextField(String.valueOf(HEIGHT));
+        height.setPromptText("Player Number");
+        setConstraints(height, 0, 5);
+        getChildren().add(height);
+
         Button submit = new Button("Submit");
-        setConstraints(submit, 1, 0);
+        submit.setPrefSize(150,20);
+        setConstraints(submit, 0, 6);
         getChildren().add(submit);
         playerNum.textProperty().addListener(e->{
                 try {
@@ -52,6 +63,26 @@ public class InitServer extends GridPane {
                     playerNum.setStyle("-fx-text-inner-color: red;");
                     submit.setDisable(true);
                 }
+        });
+        width.textProperty().addListener(e->{
+            try {
+                Integer.parseInt(width.getText());
+                submit.setDisable(false);
+                width.setStyle("-fx-text-inner-color: black;");
+            }catch(Exception ex){
+                width.setStyle("-fx-text-inner-color: red;");
+                submit.setDisable(true);
+            }
+        });
+        height.textProperty().addListener(e->{
+            try {
+                Integer.parseInt(height.getText());
+                submit.setDisable(false);
+                height.setStyle("-fx-text-inner-color: black;");
+            }catch(Exception ex){
+                height.setStyle("-fx-text-inner-color: red;");
+                submit.setDisable(true);
+            }
         });
         serverPort.textProperty().addListener(e->{
             try {
@@ -69,6 +100,8 @@ public class InitServer extends GridPane {
             SERVER_PASSWORD=serverPass.getText();
             SERVER_SIZE=Integer.parseInt(playerNum.getText());
             SERVER_PORT=Integer.parseInt(serverPort.getText());
+            WIDTH=Integer.parseInt(width.getText());
+            HEIGHT=Integer.parseInt(height.getText());
 
             PrepareBoard board = new PrepareBoard();
             Stage stage = new Stage();

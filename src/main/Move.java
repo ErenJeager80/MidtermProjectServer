@@ -9,7 +9,7 @@ import static main.Globals.*;
 public class Move {
     public static void set(Tile[][] board, int x1, int y1, int x2, int y2) {
         if(board[x1][y1].hasElement() && board[x1][y1].getElement() instanceof Piece) {
-            for (int i = x1, j = y1; (!(x2 > x1 || y2 > y1) || (i <= x2 && j <= y2)) && (!(x2 < x1 || y2 < y1) || i >= x2 && j >= y2); i += Integer.signum(x2 - x1), j += Integer.signum(y2 - y1)) {
+            for (int i = x1, j = y1; (!(x2 > x1 || y2 > y1) || (i <= x2 && j <= y2)) && (!(x2 < x1 || y2 < y1) || (i >= x2 && j >= y2)); i += Integer.signum(x2 - x1), j += Integer.signum(y2 - y1)) {
                 if (board[i][j].hasElement() && board[i][j].getElement().isVisible()) {
                     if (board[i][j].getElement() instanceof Star) {
                         players.get(((Piece)board[x1][y1].getElement()).getPieceId()).setScore(players.get(((Piece)board[x1][y1].getElement()).getPieceId()).getScore() + 1);

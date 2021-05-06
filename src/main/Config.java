@@ -1,12 +1,12 @@
 package main;
 
 public class Config {
-    public static int TILE_SIZE = 50;
+    public static int TILE_SIZE = 43;
     public static int WIDTH = 10;
-    public static int HEIGHT = 10;
+    public static int HEIGHT = 11;
 
-    public static String FIRST_COLOR = "#ba68c8";
-    public static String SECOND_COLOR = "#ce93d8";
+    public static String FIRST_COLOR = "#7fff00";
+    public static String SECOND_COLOR = "#ff6437";
 
     public static int SETTING_WIDTH = 215;
 

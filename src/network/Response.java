@@ -50,6 +50,7 @@ public class Response implements Runnable{
                     case "width"->  send(player.getSocket(),String.valueOf( WIDTH));
                     case "height"-> send(player.getSocket(),String.valueOf( HEIGHT));
                     case "tileSize"->  send(player.getSocket(),String.valueOf( TILE_SIZE));
+                    case "score?"->  send(player.getSocket(),String.valueOf( player.getScore()));
                     case "lastMove"->  send(player.getSocket(), LAST_MOVE);
                     case "fc"->  send(player.getSocket(), FIRST_COLOR);
                     case "sc"->  send(player.getSocket(), SECOND_COLOR);
